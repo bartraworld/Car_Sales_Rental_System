@@ -37,7 +37,7 @@ public class CarController {
     }
 
     @GetMapping("/{id}")
-    public String getCarById(@PathVariable String id) {
-        return "Car details for ID: " + id;
+    public BaseModel<CarResponse> getCarById(@PathVariable Long id) {
+        return new BaseModel<>("success", "Car retrieved successfully", carService.getCar(id));
     }
 }

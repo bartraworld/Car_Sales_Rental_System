@@ -20,6 +20,18 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
+    public CarResponse getCar(Long id) {
+
+        Car car = carRepository.findById(id).get();
+        return new CarResponse(
+                car.getId(),
+                car.getMake(),
+                car.getModel(),
+                car.getYear(),
+                car.getCurrentPrice()
+        );
+    }
+
     public List<CarResponse> getAllCars() {
         return carRepository.findAll().stream().map(car -> new CarResponse(
                         car.getId(),
