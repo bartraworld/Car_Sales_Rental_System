@@ -2,9 +2,9 @@ package bartra.world.carsalesrentalsystem.service;
 
 import bartra.world.carsalesrentalsystem.entity.Car;
 import bartra.world.carsalesrentalsystem.model.IdModel;
+import bartra.world.carsalesrentalsystem.model.car.CarResponse;
 import bartra.world.carsalesrentalsystem.model.car.CarToSaveRequest;
 import bartra.world.carsalesrentalsystem.repository.CarRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +16,19 @@ public class CarService {
     final
     CarRepository carRepository;
 
-    @Autowired
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
     }
 
-    public List<Car> getAllCars() {
-        return carRepository.findAll();
+    public List<CarResponse> getAllCars() {
+        return carRepository.findAll().stream().map(car -> new CarResponse(
+                        car.getId(),
+                        car.getMake(),
+                        car.getModel(),
+                        car.getYear(),
+                        car.getCurrentPrice()
+                )
+        ).toList();
     }
 
     public IdModel addCar(CarToSaveRequest carToSaveRequest) {

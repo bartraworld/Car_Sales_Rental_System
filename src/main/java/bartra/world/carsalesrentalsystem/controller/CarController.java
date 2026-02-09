@@ -1,11 +1,10 @@
 package bartra.world.carsalesrentalsystem.controller;
 
-import bartra.world.carsalesrentalsystem.entity.Car;
 import bartra.world.carsalesrentalsystem.model.BaseModel;
 import bartra.world.carsalesrentalsystem.model.IdModel;
+import bartra.world.carsalesrentalsystem.model.car.CarResponse;
 import bartra.world.carsalesrentalsystem.model.car.CarToSaveRequest;
 import bartra.world.carsalesrentalsystem.service.CarService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,13 +20,12 @@ public class CarController {
     final
     CarService carService;
 
-    @Autowired
     public CarController(CarService carService) {
         this.carService = carService;
     }
 
     @GetMapping("")
-    public BaseModel<List<Car>> getCars() {
+    public BaseModel<List<CarResponse>> getCars() {
         return new BaseModel<>("success", "Cars retrieved successfully", carService.getAllCars());
     }
 
