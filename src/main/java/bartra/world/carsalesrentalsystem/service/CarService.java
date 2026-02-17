@@ -13,10 +13,10 @@ import java.util.List;
 @Service
 @Transactional
 public class CarService {
-    final
-    CarRepository carRepository;
+    final CarRepository carRepository;
 
     public CarService(CarRepository carRepository) {
+
         this.carRepository = carRepository;
     }
 
