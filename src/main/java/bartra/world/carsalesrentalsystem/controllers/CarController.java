@@ -26,19 +26,42 @@ public class CarController {
 
     @GetMapping("")
     public BaseModel<List<CarResponse>> getCars() {
-        return new BaseModel<>("success", "Cars retrieved successfully", carService.getAllCars());
+        var cars = carService.getAllCars();
+
+        return new BaseModel<>(
+                "success",
+                "Cars retrieved successfully",
+                cars.stream().map(car -> new CarResponse(
+                        car.getId(),
+                        car.getMake(),
+                        car.getModel(),
+                        car.getYear(),
+                        car.getCurrentPrice()
+                )).toList()
+        );
     }
 
     @PostMapping("/car")
     public BaseModel<IdModel> addCar(@RequestBody CarToSaveRequest carToSaveRequest) {
-        var idModel = carService.addCar(carToSaveRequest);
-        return new BaseModel<>("success", "Car added successfully", idModel);
+        var id = carService.addCar(carToSaveRequest);
+        return new BaseModel<>("success", "Car added successfully", new IdModel(id));
 
     }
 
     @GetMapping("/car/{id}")
     public BaseModel<CarResponse> getCarById(@PathVariable Long id) {
-        return new BaseModel<>("success", "Car retrieved successfully", carService.getCar(id));
+        var car = carService.getCar(id);
+        return new BaseModel<>(
+                "success",
+                "Car retrieved successfully",
+                new CarResponse(
+                        car.getId(),
+                        car.getMake(),
+                        car.getModel(),
+                        car.getYear(),
+                        car.getCurrentPrice()
+                )
+        );
     }
 
 }

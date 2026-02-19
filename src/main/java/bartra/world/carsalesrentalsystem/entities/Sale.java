@@ -1,16 +1,19 @@
 package bartra.world.carsalesrentalsystem.entities;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Min;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -18,17 +21,23 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Car {
+public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String make;
-    private String model;
-    private String plate;
-    // si deve usare @Column per specificare il nome della colonna nel database se è diverso dal nome del campo
-    // perché "year" è una parola riservata in SQL
-    @Column(name = "production_year")
-    @Min(1886) // La prima auto è stata prodotta nel 1886
-    private int year;
-    private double currentPrice;
+
+    @OneToOne
+    @JoinColumn(name = "car_sold_id")
+    private Car carSold;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    private Double salePrice;
+    private LocalDate saleDate;
+
+//    public Car getCarSold() {
+//        return carSold;
+//    }
 }

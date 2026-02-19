@@ -2,8 +2,6 @@ package bartra.world.carsalesrentalsystem.services;
 
 import bartra.world.carsalesrentalsystem.entities.Car;
 import bartra.world.carsalesrentalsystem.exceptions.car.CarNotFound;
-import bartra.world.carsalesrentalsystem.models.IdModel;
-import bartra.world.carsalesrentalsystem.models.cars.CarResponse;
 import bartra.world.carsalesrentalsystem.models.cars.CarToSaveRequest;
 import bartra.world.carsalesrentalsystem.repositories.CarRepository;
 import org.springframework.stereotype.Service;
@@ -20,29 +18,23 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public CarResponse getCar(Long id) {
+    public Car getCar(Long id) {
         Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFound(id));
-        return new CarResponse(
+        return new Car(
                 car.getId(),
                 car.getMake(),
                 car.getModel(),
+                car.getPlate(),
                 car.getYear(),
                 car.getCurrentPrice()
         );
     }
 
-    public List<CarResponse> getAllCars() {
-        return carRepository.findAll().stream().map(car -> new CarResponse(
-                        car.getId(),
-                        car.getMake(),
-                        car.getModel(),
-                        car.getYear(),
-                        car.getCurrentPrice()
-                )
-        ).toList();
+    public List<Car> getAllCars() {
+        return carRepository.findAll();
     }
 
-    public IdModel addCar(CarToSaveRequest carToSaveRequest) {
+    public Long addCar(CarToSaveRequest carToSaveRequest) {
         Car car = Car.builder()
                 .make(carToSaveRequest.make())
                 .model(carToSaveRequest.model())
@@ -51,6 +43,6 @@ public class CarService {
                 .build();
 
         car = carRepository.save(car);
-        return new IdModel(car.getId());
+        return car.getId();
     }
 }

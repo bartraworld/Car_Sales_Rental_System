@@ -2,8 +2,6 @@ package bartra.world.carsalesrentalsystem.services;
 
 
 import bartra.world.carsalesrentalsystem.entities.Customer;
-import bartra.world.carsalesrentalsystem.models.IdModel;
-import bartra.world.carsalesrentalsystem.models.customers.CustomerResponse;
 import bartra.world.carsalesrentalsystem.models.customers.CustomerToSaveRequest;
 import bartra.world.carsalesrentalsystem.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -22,40 +20,15 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public CustomerResponse getCustomerById(Long id) {
-        Customer customer = customerRepository.findById(id).get();
-
-        return new CustomerResponse(
-                customer.getId(),
-                customer.getFirstName(),
-                customer.getLastName(),
-                customer.getDateOfBirth(),
-                customer.getPhoneNumber(),
-                customer.getEmail(),
-                customer.getTaxCode(),
-                customer.getAddress(),
-                customer.getBadPayer()
-
-        );
+    public Customer getCustomerById(Long id) {
+        return customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer with id " + id + " not found"));
     }
 
-    public List<CustomerResponse> getAllCustomers() {
-        return customerRepository.findAll().stream().map(customer -> new CustomerResponse(
-
-                        customer.getId(),
-                        customer.getFirstName(),
-                        customer.getLastName(),
-                        customer.getDateOfBirth(),
-                        customer.getPhoneNumber(),
-                        customer.getEmail(),
-                        customer.getTaxCode(),
-                        customer.getAddress(),
-                        customer.getBadPayer()
-                )
-        ).toList();
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
     }
 
-    public IdModel addCustomer(CustomerToSaveRequest customerToSaveRequest) {
+    public Long addCustomer(CustomerToSaveRequest customerToSaveRequest) {
         Customer customer = Customer.builder()
                 .firstName(customerToSaveRequest.firstName())
                 .lastName(customerToSaveRequest.lastName())
@@ -68,7 +41,7 @@ public class CustomerService {
                 .build();
 
         customer = customerRepository.save(customer);
-        return new IdModel(customer.getId());
+        return customer.getId();
 
 
     }

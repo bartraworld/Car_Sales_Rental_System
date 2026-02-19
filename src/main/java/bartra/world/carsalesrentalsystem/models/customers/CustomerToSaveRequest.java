@@ -33,7 +33,5 @@ public record CustomerToSaveRequest(
 
         @NotBlank
         String address
-
-
 ) {
 }
