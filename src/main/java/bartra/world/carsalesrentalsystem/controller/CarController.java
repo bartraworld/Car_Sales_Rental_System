@@ -29,14 +29,14 @@ public class CarController {
         return new BaseModel<>("success", "Cars retrieved successfully", carService.getAllCars());
     }
 
-    @PostMapping("car")
+    @PostMapping("/car")
     public BaseModel<IdModel> addCar(@RequestBody CarToSaveRequest carToSaveRequest) {
         var idModel = carService.addCar(carToSaveRequest);
         return new BaseModel<>("success", "Car added successfully", idModel);
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/car/{id}")
     public BaseModel<CarResponse> getCarById(@PathVariable Long id) {
         return new BaseModel<>("success", "Car retrieved successfully", carService.getCar(id));
     }

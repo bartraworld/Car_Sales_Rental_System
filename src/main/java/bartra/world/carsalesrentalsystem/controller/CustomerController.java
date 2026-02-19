@@ -25,19 +25,19 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/customers")
+    @GetMapping("")
     public BaseModel<List<CustomerResponse>> getAllCustomers() {
-        return new BaseModel<>("success", "customers retrieved successfully",customerService.getAllCustomers());
+        return new BaseModel<>("success", "customers retrieved successfully", customerService.getAllCustomers());
     }
 
-    @PostMapping("customer")
+    @PostMapping("/customer")
     public BaseModel<IdModel> addCustomer(@RequestBody CustomerToSaveRequest customerToSaveRequest) {
         var idModel = customerService.addCustomer(customerToSaveRequest);
         return new BaseModel<>("success", "Customer added successfully", idModel);
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/customer/{id}")
     public BaseModel<CustomerResponse> getCustomerById(@PathVariable Long id) {
         return new BaseModel<>("success", "Customer retrieved successfully", customerService.getCustomerById(id));
     }
