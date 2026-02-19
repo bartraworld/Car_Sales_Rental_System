@@ -1,6 +1,6 @@
-package bartra.world.carsalesrentalsystem.repository;
+package bartra.world.carsalesrentalsystem.repositories;
 
-import bartra.world.carsalesrentalsystem.entity.Car;
+import bartra.world.carsalesrentalsystem.entities.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package bartra.world.carsalesrentalsystem.model.customer;
+package bartra.world.carsalesrentalsystem.models.customers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;

@@ -1,10 +1,11 @@
-package bartra.world.carsalesrentalsystem.service;
+package bartra.world.carsalesrentalsystem.services;
 
-import bartra.world.carsalesrentalsystem.entity.Car;
-import bartra.world.carsalesrentalsystem.model.IdModel;
-import bartra.world.carsalesrentalsystem.model.car.CarResponse;
-import bartra.world.carsalesrentalsystem.model.car.CarToSaveRequest;
-import bartra.world.carsalesrentalsystem.repository.CarRepository;
+import bartra.world.carsalesrentalsystem.entities.Car;
+import bartra.world.carsalesrentalsystem.exceptions.car.CarNotFound;
+import bartra.world.carsalesrentalsystem.models.IdModel;
+import bartra.world.carsalesrentalsystem.models.cars.CarResponse;
+import bartra.world.carsalesrentalsystem.models.cars.CarToSaveRequest;
+import bartra.world.carsalesrentalsystem.repositories.CarRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +17,11 @@ public class CarService {
     final CarRepository carRepository;
 
     public CarService(CarRepository carRepository) {
-
         this.carRepository = carRepository;
     }
 
     public CarResponse getCar(Long id) {
-
-        Car car = carRepository.findById(id).get();
+        Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFound(id));
         return new CarResponse(
                 car.getId(),
                 car.getMake(),

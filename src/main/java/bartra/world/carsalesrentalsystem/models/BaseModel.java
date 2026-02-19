@@ -1,4 +1,4 @@
-package bartra.world.carsalesrentalsystem.model;
+package bartra.world.carsalesrentalsystem.models;
 
 public record BaseModel<T>(
         String status,

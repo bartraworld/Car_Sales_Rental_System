@@ -1,4 +1,4 @@
-package bartra.world.carsalesrentalsystem.model.car;
+package bartra.world.carsalesrentalsystem.models.cars;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,4 +15,5 @@ public record CarToSaveRequest(
         int year,
         @JsonProperty("current_price")
         double currentPrice
-) {}
+) {
+}

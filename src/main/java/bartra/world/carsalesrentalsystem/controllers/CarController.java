@@ -1,10 +1,10 @@
-package bartra.world.carsalesrentalsystem.controller;
+package bartra.world.carsalesrentalsystem.controllers;
 
-import bartra.world.carsalesrentalsystem.model.BaseModel;
-import bartra.world.carsalesrentalsystem.model.IdModel;
-import bartra.world.carsalesrentalsystem.model.car.CarResponse;
-import bartra.world.carsalesrentalsystem.model.car.CarToSaveRequest;
-import bartra.world.carsalesrentalsystem.service.CarService;
+import bartra.world.carsalesrentalsystem.models.BaseModel;
+import bartra.world.carsalesrentalsystem.models.IdModel;
+import bartra.world.carsalesrentalsystem.models.cars.CarResponse;
+import bartra.world.carsalesrentalsystem.models.cars.CarToSaveRequest;
+import bartra.world.carsalesrentalsystem.services.CarService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

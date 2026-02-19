@@ -1,14 +1,13 @@
-package bartra.world.carsalesrentalsystem.service;
+package bartra.world.carsalesrentalsystem.services;
 
 
-import bartra.world.carsalesrentalsystem.entity.Customer;
-import bartra.world.carsalesrentalsystem.model.IdModel;
-
-import bartra.world.carsalesrentalsystem.model.customer.CustomerResponse;
-import bartra.world.carsalesrentalsystem.model.customer.CustomerToSaveRequest;
-import bartra.world.carsalesrentalsystem.repository.CustomerRepository;
-import org.springframework.transaction.annotation.Transactional;
+import bartra.world.carsalesrentalsystem.entities.Customer;
+import bartra.world.carsalesrentalsystem.models.IdModel;
+import bartra.world.carsalesrentalsystem.models.customers.CustomerResponse;
+import bartra.world.carsalesrentalsystem.models.customers.CustomerToSaveRequest;
+import bartra.world.carsalesrentalsystem.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,21 +36,21 @@ public class CustomerService {
                 customer.getAddress(),
                 customer.getBadPayer()
 
-                );
+        );
     }
 
     public List<CustomerResponse> getAllCustomers() {
         return customerRepository.findAll().stream().map(customer -> new CustomerResponse(
 
-                customer.getId(),
-                customer.getFirstName(),
-                customer.getLastName(),
-                customer.getDateOfBirth(),
-                customer.getPhoneNumber(),
-                customer.getEmail(),
-                customer.getTaxCode(),
-                customer.getAddress(),
-                customer.getBadPayer()
+                        customer.getId(),
+                        customer.getFirstName(),
+                        customer.getLastName(),
+                        customer.getDateOfBirth(),
+                        customer.getPhoneNumber(),
+                        customer.getEmail(),
+                        customer.getTaxCode(),
+                        customer.getAddress(),
+                        customer.getBadPayer()
                 )
         ).toList();
     }

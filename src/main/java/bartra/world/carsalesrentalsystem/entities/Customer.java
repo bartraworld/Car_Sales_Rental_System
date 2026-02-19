@@ -1,4 +1,4 @@
-package bartra.world.carsalesrentalsystem.entity;
+package bartra.world.carsalesrentalsystem.entities;
 
 
 import jakarta.persistence.Entity;
@@ -20,10 +20,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
-
 public class Customer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +32,5 @@ public class Customer {
     private String taxCode;
     private String address;
     private Boolean badPayer;
-
-
+    private Boolean isGay;
 }
