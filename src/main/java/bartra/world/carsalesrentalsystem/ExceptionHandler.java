@@ -16,9 +16,7 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(BaseException.class)
     public BaseModel<ErrorResponse> handleException(BaseException e) {
-        // Log the exception (you can use a logging framework here)
         log.error("An error occurred({}): {}", e.getClass().getName(), e.getMessage());
-        // Return a generic error message to the client
         return new BaseModel<>(
                 e.getStatus(),
                 e.getMessage(),
@@ -28,9 +26,7 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(ConstraintViolationException.class)
     public BaseModel<Map<String, String>> handleConstraintViolationException(ConstraintViolationException e) {
-        // Log the exception (you can use a logging framework here)
         log.error("Validation error: {}", e.getMessage());
-        // Return a generic error message to the client
         return new BaseModel<>(
                 "error",
                 "Validation failed. Please check your input and try again.",
@@ -46,9 +42,7 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public BaseModel<ErrorResponse> handleGenericException(Exception e) {
-        // Log the exception (you can use a logging framework here)
         log.error("An error occurred({}): {}", e.getClass().getName(), e.getMessage());
-        // Return a generic error message to the client
         return new BaseModel<>(
                 "error",
                 "An unexpected error occurred. Please try again later.",
