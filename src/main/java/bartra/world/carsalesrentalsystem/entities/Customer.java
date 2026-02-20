@@ -32,5 +32,5 @@ public class Customer {
     private String taxCode;
     private String address;
     private Boolean badPayer;
-    private Boolean isGay;
+
 }
