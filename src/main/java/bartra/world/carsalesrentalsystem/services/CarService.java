@@ -34,15 +34,16 @@ public class CarService {
         return carRepository.findAll();
     }
 
-    public Long addCar(CarToSaveRequest carToSaveRequest) {
+    public Long addCar(CarToSaveRequest req) {
         Car car = Car.builder()
-                .make(carToSaveRequest.make())
-                .model(carToSaveRequest.model())
-                .year(carToSaveRequest.year())
-                .currentPrice(carToSaveRequest.currentPrice())
+                .make(req.make())
+                .model(req.model())
+                .year(req.year())
+                .currentPrice(req.currentPrice())
                 .build();
 
         car = carRepository.save(car);
+
         return car.getId();
     }
 }

@@ -42,9 +42,9 @@ public class CarController {
     }
 
     @PostMapping("/car")
-    public BaseModel<IdModel> addCar(@RequestBody CarToSaveRequest carToSaveRequest) {
-        var id = carService.addCar(carToSaveRequest);
-        return new BaseModel<>("success", "Car added successfully", new IdModel(id));
+    public BaseModel<IdModel> addCar(@RequestBody CarToSaveRequest req) {
+        var id = carService.addCar(req);
+        return new BaseModel<>("success", "Car added successfully. Car ID: ", new IdModel(id));
 
     }
 
