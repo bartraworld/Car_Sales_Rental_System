@@ -8,6 +8,7 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Arrays;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -43,6 +44,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public BaseModel<ErrorResponse> handleGenericException(Exception e) {
         log.error("An error occurred({}): {}", e.getClass().getName(), e.getMessage());
+        e.printStackTrace();
         return new BaseModel<>(
                 "error",
                 "An unexpected error occurred. Please try again later.",
