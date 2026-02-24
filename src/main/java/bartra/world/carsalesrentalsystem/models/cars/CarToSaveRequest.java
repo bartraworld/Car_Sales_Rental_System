@@ -19,7 +19,8 @@ public record CarToSaveRequest(
         @NotBlank
         @Pattern(
                 regexp = "^[A-Z]{2}[0-9]{3}[A-Z]{2}$",
-                message = "Invalid plate format.")
+                message = "Invalid plate format. Expected format: 2 uppercase letters, followed by 3 digits, followed by 2 uppercase letters (e.g., AB123CD)"
+        )
         String plate
 ) {
 }
