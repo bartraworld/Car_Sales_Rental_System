@@ -42,8 +42,8 @@ public class CarService {
         return car.getId();
     }
 
-    public Car deleteCar ( Long id) {
-        Car car = carRepository.findById(id).orElseThrow(()-> new CarNotFound(id));
+    public Car deleteCar(Long id) {
+        Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFound(id));
         carRepository.delete(car);
         return car;
     }

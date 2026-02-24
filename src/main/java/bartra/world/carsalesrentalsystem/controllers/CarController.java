@@ -7,7 +7,14 @@ import bartra.world.carsalesrentalsystem.models.cars.CarToSaveRequest;
 import bartra.world.carsalesrentalsystem.models.cars.CarToUpdateRequest;
 import bartra.world.carsalesrentalsystem.services.CarService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -46,6 +53,10 @@ public class CarController {
     }
 
     @GetMapping("/car/{id}")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Car retrieved successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Car not found")
+    })
     public BaseModel<CarResponse> getCarById(@PathVariable Long id) {
         var car = carService.getCar(id);
         return new BaseModel<>(
@@ -62,8 +73,8 @@ public class CarController {
     }
 
     @DeleteMapping("/car/{id}")
-    public BaseModel <CarResponse> deleteCar(@PathVariable Long id){
-        var car =carService.deleteCar(id);
+    public BaseModel<CarResponse> deleteCar(@PathVariable Long id) {
+        var car = carService.deleteCar(id);
 
         return new BaseModel<>("Success", ", Car deleted successfully.",
                 new CarResponse(car.getId(),

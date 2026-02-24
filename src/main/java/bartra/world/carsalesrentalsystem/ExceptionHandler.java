@@ -1,13 +1,13 @@
 package bartra.world.carsalesrentalsystem;
 
 import bartra.world.carsalesrentalsystem.exceptions.BaseException;
-import bartra.world.carsalesrentalsystem.exceptions.car.CarNotFound;
 import bartra.world.carsalesrentalsystem.models.BaseModel;
 import bartra.world.carsalesrentalsystem.models.ErrorResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,25 +21,20 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ExceptionHandler {
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(CarNotFound.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public BaseModel<String> handleCarNotFound(CarNotFound e) {
-        return new BaseModel<>("error", e.getMessage(), null);
-    }
-
-    //Business Logic errors
     @org.springframework.web.bind.annotation.ExceptionHandler(BaseException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseModel<ErrorResponse> handleException(BaseException e) {
+    public ResponseEntity<BaseModel<ErrorResponse>> handleException(BaseException e) {
         log.error("An error occurred({}): {}", e.getClass().getName(), e.getMessage());
-        return new BaseModel<>(
-                e.getStatus(),
-                e.getMessage(),
-                new ErrorResponse(e.getDetails())
+        return new ResponseEntity<>(
+                new BaseModel<>(
+                        e.getStatus(),
+                        e.getMessage(),
+                        new ErrorResponse(e.getDetails())
+                ),
+                e.getCode()
         );
     }
 
-     //Controller validations
+    //Controller validations
     @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
     public BaseModel<Map<String, String>> handleValidationException(MethodArgumentNotValidException e) {

@@ -8,7 +8,7 @@ public record CarToUpdateRequest(
         @Min(1886)
         int year,
         double currentPrice,
-        String plate)  {
+        String plate) {
 
 
 }
