@@ -13,7 +13,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -37,14 +38,21 @@ public class ExceptionHandler {
     //Controller validations
     @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
-    public BaseModel<Map<String, String>> handleValidationException(MethodArgumentNotValidException e) {
+    public BaseModel<Map<String, List<String>>> handleValidationException(MethodArgumentNotValidException e) {
         log.error("DTO Validation error: {}", e.getMessage());
-        Map<String, String> errors = new HashMap<>();
-        e.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
+        Map<String, List<String>> errors = e.getBindingResult().getAllErrors().stream()
+                .filter(error -> error.getDefaultMessage() != null)
+                .collect(
+                        Collectors.toMap(
+                                error -> ((FieldError) error).getField(),
+                                error -> List.of(error.getDefaultMessage()),
+                                (existing, replacement) -> {
+                                    var merged = new ArrayList<>(existing);
+                                    merged.addAll(replacement);
+                                    return merged;
+                                }
+                        )
+                );
         return new BaseModel<>(
                 "error",
                 "Validation failed. Please check your input and try again.",
@@ -55,18 +63,24 @@ public class ExceptionHandler {
     // parameters validation
     @org.springframework.web.bind.annotation.ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
-    public BaseModel<Map<String, String>> handleConstraintViolationException(ConstraintViolationException e) {
+    public BaseModel<Map<String, List<String>>> handleConstraintViolationException(ConstraintViolationException e) {
         log.error("Constraint Validation error: {}", e.getMessage());
         return new BaseModel<>(
                 "error",
                 "Validation failed. Please check your input and try again.",
                 e.getConstraintViolations().stream()
-                        .collect(Collectors.toMap(
-                                violation -> violation.getPropertyPath().toString(),
-                                ConstraintViolation::getMessage,
-                                //for multiple error handling
-                                (existing, replacement) -> existing
-                        ))
+                        .collect(
+                                Collectors.toMap(
+                                        violation -> violation.getPropertyPath().toString(),
+                                        (ConstraintViolation<?> violation) -> List.of(violation.getMessage()),
+                                        //for multiple error handling
+                                        (existing, replacement) -> {
+                                            var merged = new ArrayList<>(existing);
+                                            merged.addAll(replacement);
+                                            return merged;
+                                        }
+                                )
+                        )
         );
     }
 
