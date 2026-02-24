@@ -99,8 +99,8 @@ public class CustomerController {
                                         sale.getCarSold().getMake(),
                                         sale.getCarSold().getModel(),
                                         sale.getCarSold().getYear(),
-                                        sale.getCarSold().getCurrentPrice()
-                                ),
+                                        sale.getCarSold().getCurrentPrice(),
+                                        sale.getCarSold().getPlate()),
                                 sale.getSaleDate().toString(),
                                 sale.getSalePrice()
                         )

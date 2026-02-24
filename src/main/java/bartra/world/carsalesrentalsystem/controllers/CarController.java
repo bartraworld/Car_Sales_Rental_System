@@ -6,6 +6,7 @@ import bartra.world.carsalesrentalsystem.models.cars.CarResponse;
 import bartra.world.carsalesrentalsystem.models.cars.CarToSaveRequest;
 import bartra.world.carsalesrentalsystem.models.cars.CarToUpdateRequest;
 import bartra.world.carsalesrentalsystem.services.CarService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,13 +33,13 @@ public class CarController {
                         car.getMake(),
                         car.getModel(),
                         car.getYear(),
-                        car.getCurrentPrice()
-                )).toList()
+                        car.getCurrentPrice(),
+                        car.getPlate())).toList()
         );
     }
 
     @PostMapping("/car")
-    public BaseModel<IdModel> addCar(@RequestBody CarToSaveRequest req) {
+    public BaseModel<IdModel> addCar(@Valid @RequestBody CarToSaveRequest req) {
         var id = carService.addCar(req);
         return new BaseModel<>("success", "Car added successfully. Car ID: ", new IdModel(id));
 
@@ -55,8 +56,8 @@ public class CarController {
                         car.getMake(),
                         car.getModel(),
                         car.getYear(),
-                        car.getCurrentPrice()
-                )
+                        car.getCurrentPrice(),
+                        car.getPlate())
         );
     }
 
@@ -69,8 +70,8 @@ public class CarController {
                         car.getMake(),
                         car.getModel(),
                         car.getYear(),
-                        car.getCurrentPrice()
-                )
+                        car.getCurrentPrice(),
+                        car.getPlate())
         );
 
     }
@@ -86,7 +87,8 @@ public class CarController {
                         car.getMake(),
                         car.getModel(),
                         car.getYear(),
-                        car.getCurrentPrice()
+                        car.getCurrentPrice(),
+                        car.getPlate()
                 )
         );
     }

@@ -9,6 +9,6 @@ public record CarResponse(
         @JsonProperty("production_year")
         Integer productionYear,
         @JsonProperty("current_price")
-        Double currentPrice
-) {
+        Double currentPrice,
+        String plate) {
 }

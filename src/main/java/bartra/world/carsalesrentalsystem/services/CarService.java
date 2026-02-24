@@ -41,6 +41,7 @@ public class CarService {
                 .model(req.model())
                 .year(req.year())
                 .currentPrice(req.currentPrice())
+                .plate(req.plate())
                 .build();
 
         car = carRepository.save(car);

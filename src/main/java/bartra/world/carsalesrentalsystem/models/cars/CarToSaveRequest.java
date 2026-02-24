@@ -4,6 +4,7 @@ package bartra.world.carsalesrentalsystem.models.cars;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 public record CarToSaveRequest(
         @NotBlank
@@ -11,9 +12,14 @@ public record CarToSaveRequest(
         @NotBlank
         String model,
         @JsonProperty("production_year")
-        @Min(1886)
+        @Min(value = 1886, message = "Invalid production year")
         int year,
         @JsonProperty("current_price")
-        double currentPrice
+        double currentPrice,
+        @NotBlank
+        @Pattern(
+                regexp = "^[A-Z]{2}[0-9]{3}[A-Z]{2}$",
+                message = "Invalid plate format.")
+        String plate
 ) {
 }
