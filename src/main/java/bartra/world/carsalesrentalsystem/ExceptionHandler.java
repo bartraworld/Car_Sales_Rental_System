@@ -1,6 +1,7 @@
 package bartra.world.carsalesrentalsystem;
 
 import bartra.world.carsalesrentalsystem.exceptions.BaseException;
+import bartra.world.carsalesrentalsystem.exceptions.car.CarNotFound;
 import bartra.world.carsalesrentalsystem.models.BaseModel;
 import bartra.world.carsalesrentalsystem.models.ErrorResponse;
 import jakarta.validation.ConstraintViolation;
@@ -19,6 +20,12 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class ExceptionHandler {
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(CarNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public BaseModel<String> handleCarNotFound(CarNotFound e) {
+        return new BaseModel<>("error", e.getMessage(), null);
+    }
 
     //Business Logic errors
     @org.springframework.web.bind.annotation.ExceptionHandler(BaseException.class)

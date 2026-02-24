@@ -20,15 +20,8 @@ public class CarService {
     }
 
     public Car getCar(Long id) {
-        Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFound(id));
-        return new Car(
-                car.getId(),
-                car.getMake(),
-                car.getModel(),
-                car.getPlate(),
-                car.getYear(),
-                car.getCurrentPrice()
-        );
+        return carRepository.findById(id).orElseThrow(() -> new CarNotFound(id));
+
     }
 
     public List<Car> getAllCars() {
