@@ -3,7 +3,7 @@ package bartra.world.carsalesrentalsystem.services;
 import bartra.world.carsalesrentalsystem.entities.Car;
 import bartra.world.carsalesrentalsystem.exceptions.car.CarNotFound;
 import bartra.world.carsalesrentalsystem.models.cars.CarToSaveRequest;
-import bartra.world.carsalesrentalsystem.models.cars.CarToUpdateRequest;
+import bartra.world.carsalesrentalsystem.models.cars.CarToPatchRequest;
 import bartra.world.carsalesrentalsystem.repositories.CarRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,13 +48,13 @@ public class CarService {
         return car;
     }
 
-    public Car updateCar(Long id, CarToUpdateRequest updateReq) {
+    public Car patchCar(Long id, CarToPatchRequest patchReq) {
         Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFound(id));
-        car.setMake(updateReq.make());
-        car.setModel(updateReq.model());
-        car.setYear(updateReq.year());
-        car.setCurrentPrice(updateReq.currentPrice());
-        car.setPlate(updateReq.plate());
+        if(patchReq.make()!=null && !patchReq.make().isBlank()) car.setMake(patchReq.make());
+        if(patchReq.model()!=null && !patchReq.model().isBlank()) car.setModel(patchReq.model());
+        if(patchReq.year()!=null) car.setYear(patchReq.year());
+        if(patchReq.currentPrice()!=null) car.setCurrentPrice(patchReq.currentPrice());
+        if(patchReq.plate()!=null && !patchReq.plate().isBlank()) car.setPlate(patchReq.plate());
         return carRepository.save(car);
     }
 

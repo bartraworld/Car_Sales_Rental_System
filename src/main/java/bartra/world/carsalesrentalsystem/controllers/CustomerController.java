@@ -5,15 +5,11 @@ import bartra.world.carsalesrentalsystem.models.IdModel;
 import bartra.world.carsalesrentalsystem.models.cars.CarResponse;
 import bartra.world.carsalesrentalsystem.models.customers.CustomerResponse;
 import bartra.world.carsalesrentalsystem.models.customers.CustomerToSaveRequest;
+import bartra.world.carsalesrentalsystem.models.customers.CustomerToPatchRequest;
 import bartra.world.carsalesrentalsystem.models.sales.CustomerSaleResponse;
 import bartra.world.carsalesrentalsystem.services.CustomerService;
 import bartra.world.carsalesrentalsystem.services.SaleService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -73,9 +69,11 @@ public class CustomerController {
         ));
     }
 
-//    Car getCarFromSale(Sale sale){
-//        return sale.getCarSold();
-//    }
+    @DeleteMapping("/customer/{id}")
+    public BaseModel<IdModel> deleteCustomer(@PathVariable Long id) {
+        Long deletedId = customerService.deleteCustomer(id).getId();
+        return new BaseModel<>("success", "Customer deleted successfully", new IdModel(deletedId));
+    }
 
     @GetMapping("/customer/{id}/sales/")
     public BaseModel<List<CustomerSaleResponse>> getSalesToCustomer(@PathVariable Long id) {
@@ -105,6 +103,28 @@ public class CustomerController {
                                 sale.getSalePrice()
                         )
                 ).toList()
+        );
+
+
+    }
+
+    @PatchMapping("/car/{id}")
+    public BaseModel<CustomerResponse> patchCustomer(@PathVariable Long id, @RequestBody CustomerToPatchRequest patchReq) {
+        var customer = customerService.patchCustomer(id, patchReq);
+        return new BaseModel<>(
+                "success",
+                "Customer updated successfully",
+                new CustomerResponse(
+                        customer.getId(),
+                        customer.getFirstName(),
+                        customer.getLastName(),
+                        customer.getDateOfBirth(),
+                        customer.getTaxCode(),
+                        customer.getPhoneNumber(),
+                        customer.getAddress(),
+                        customer.getEmail(),
+                        customer.getBadPayer()
+                )
         );
     }
 }

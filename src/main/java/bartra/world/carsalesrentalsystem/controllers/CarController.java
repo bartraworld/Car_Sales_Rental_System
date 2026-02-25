@@ -4,17 +4,10 @@ import bartra.world.carsalesrentalsystem.models.BaseModel;
 import bartra.world.carsalesrentalsystem.models.IdModel;
 import bartra.world.carsalesrentalsystem.models.cars.CarResponse;
 import bartra.world.carsalesrentalsystem.models.cars.CarToSaveRequest;
-import bartra.world.carsalesrentalsystem.models.cars.CarToUpdateRequest;
+import bartra.world.carsalesrentalsystem.models.cars.CarToPatchRequest;
 import bartra.world.carsalesrentalsystem.services.CarService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -87,9 +80,9 @@ public class CarController {
 
     }
 
-    @PutMapping("/car/{id}")
-    public BaseModel<CarResponse> updateCar(@PathVariable Long id, @RequestBody CarToUpdateRequest updateReq) {
-        var car = carService.updateCar(id, updateReq);
+    @PatchMapping("/car/{id}")
+    public BaseModel<CarResponse> patchCar(@PathVariable Long id, @RequestBody CarToPatchRequest patchReq) {
+        var car = carService.patchCar(id, patchReq);
         return new BaseModel<>(
                 "success",
                 "Car updated successfully",

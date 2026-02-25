@@ -2,12 +2,12 @@ package bartra.world.carsalesrentalsystem.models.cars;
 
 import jakarta.validation.constraints.Min;
 
-public record CarToUpdateRequest(
+public record CarToPatchRequest(
         String make,
         String model,
         @Min(1886)
-        int year,
-        double currentPrice,
+        Integer year,
+        Double currentPrice,
         String plate) {
 
 
